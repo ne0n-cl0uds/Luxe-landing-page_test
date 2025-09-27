@@ -257,100 +257,360 @@
     font-weight: 500;
   }
 
-  /* Features Section */
+  /* Premium Features Section - Elevated */
   .features {
-    padding: 6rem 2rem;
-    max-width: 1200px;
+    padding: 8rem 2rem;
+    max-width: 1400px;
     margin: 0 auto;
+    position: relative;
+  }
+
+  .features::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255, 126, 95, 0.1) 0%, transparent 70%);
+    transform: translateX(-50%);
+    border-radius: 50%;
+    animation: pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.5; }
+    50% { transform: translateX(-50%) scale(1.2); opacity: 0.8; }
   }
 
   .section-header {
     text-align: center;
-    margin-bottom: 4rem;
+    margin-bottom: 5rem;
+    position: relative;
+    z-index: 2;
   }
 
   .section-title {
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 700;
-    margin-bottom: 1rem;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    margin-bottom: 1.5rem;
     letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, #ff7e5f 50%, #feb47b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+  }
+
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    width: 100px;
+    height: 4px;
+    background: var(--accent-gradient);
+    transform: translateX(-50%);
+    border-radius: 2px;
+    animation: expandLine 2s ease-out;
+  }
+
+  @keyframes expandLine {
+    0% { width: 0; }
+    100% { width: 100px; }
   }
 
   .section-subtitle {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     color: var(--text-secondary);
-    max-width: 600px;
-    margin: 0 auto;
+    max-width: 700px;
+    margin: 0 auto 3rem;
+    line-height: 1.8;
+  }
+
+  .features-filter {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 0.8rem 1.5rem;
+    background: transparent;
+    color: var(--text-secondary);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  .filter-btn.active,
+  .filter-btn:hover {
+    background: var(--accent-gradient);
+    color: white;
+    border-color: transparent;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 126, 95, 0.3);
   }
 
   .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2.5rem;
+    perspective: 1000px;
   }
 
   .card {
     background: var(--glass);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 24px;
-    padding: 2.5rem;
+    backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 28px;
+    padding: 3rem 2.5rem;
     text-align: center;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    transform-style: preserve-3d;
   }
 
   .card::before {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: var(--accent-gradient);
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.6s;
   }
 
   .card:hover::before {
+    left: 100%;
+  }
+
+  .card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent-gradient);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+    border-radius: 2px;
+  }
+
+  .card:hover::after {
     transform: scaleX(1);
   }
 
   .card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-15px) rotateX(5deg);
     background: var(--glass-hover);
-    box-shadow: var(--shadow-hover);
+    box-shadow: 
+      0 25px 50px rgba(0,0,0,0.3),
+      0 0 50px rgba(255, 126, 95, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .card-header {
+    position: relative;
+    margin-bottom: 2rem;
   }
 
   .card-icon {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     background: var(--accent-gradient);
-    border-radius: 16px;
+    border-radius: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 1.5rem;
-    font-size: 1.5rem;
-    transition: transform 0.3s ease;
+    margin: 0 auto 1rem;
+    font-size: 2rem;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    box-shadow: 0 10px 30px rgba(255, 126, 95, 0.3);
   }
 
   .card:hover .card-icon {
-    transform: scale(1.1) rotate(5deg);
+    transform: scale(1.15) rotate(10deg);
+    box-shadow: 0 20px 40px rgba(255, 126, 95, 0.5);
+  }
+
+  .card-icon::before {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    background: var(--accent-gradient);
+    border-radius: 28px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .card:hover .card-icon::before {
+    opacity: 0.3;
+    animation: iconGlow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes iconGlow {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1); }
+  }
+
+  .card-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: linear-gradient(135deg, #ff4757, #ff3838);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.3rem 0.6rem;
+    border-radius: 20px;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.3s ease;
+  }
+
+  .card:hover .card-badge {
+    opacity: 1;
+    transform: scale(1);
   }
 
   .card h3 {
-    font-size: 1.4rem;
-    font-weight: 600;
+    font-size: 1.6rem;
+    font-weight: 700;
     margin-bottom: 1rem;
     color: var(--text-primary);
+    letter-spacing: -0.01em;
+    transition: color 0.3s ease;
   }
 
-  .card p {
+  .card:hover h3 {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .card-description {
     color: var(--text-secondary);
-    line-height: 1.6;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    font-size: 1.05rem;
+  }
+
+  .card-features {
+    list-style: none;
+    margin-bottom: 2rem;
+  }
+
+  .card-features li {
+    padding: 0.5rem 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.3s ease;
+    position: relative;
+    padding-left: 1.5rem;
+  }
+
+  .card-features li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: #feb47b;
+    font-weight: bold;
+  }
+
+  .card:hover .card-features li {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .card:hover .card-features li:nth-child(1) { transition-delay: 0.1s; }
+  .card:hover .card-features li:nth-child(2) { transition-delay: 0.2s; }
+  .card:hover .card-features li:nth-child(3) { transition-delay: 0.3s; }
+
+  .card-action {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+  }
+
+  .card:hover .card-action {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.2s;
+  }
+
+  .card-btn {
+    background: transparent;
+    color: var(--text-primary);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .card-btn:hover {
+    background: var(--accent-gradient);
+    border-color: transparent;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 126, 95, 0.4);
+  }
+
+  /* Special Premium Cards */
+  .card.featured {
+    background: linear-gradient(135deg, rgba(255, 126, 95, 0.1) 0%, rgba(254, 180, 123, 0.05) 100%);
+    border: 2px solid rgba(255, 126, 95, 0.3);
+    transform: scale(1.02);
+  }
+
+  .card.featured::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 126, 95, 0.2), transparent);
+  }
+
+  .card.premium {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.05) 100%);
+    border: 2px solid rgba(102, 126, 234, 0.3);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .features {
+      padding: 4rem 1rem;
+    }
+    
+    .cards {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    .features-filter {
+      gap: 0.5rem;
+    }
+    
+    .filter-btn {
+      padding: 0.6rem 1rem;
+      font-size: 0.8rem;
+    }
+    
+    .card {
+      padding: 2rem 1.5rem;
+    }
   }
 
   /* Interactive Demo Section */
@@ -544,42 +804,153 @@
     </div>
   </section>
 
-  <!-- Features Section -->
+  <!-- Premium Features Section - ELEVATED -->
   <section class="features fade-in" id="features">
     <div class="section-header">
       <h2 class="section-title">Premium Features</h2>
-      <p class="section-subtitle">Experience the future of web design with our advanced features and cutting-edge technology</p>
+      <p class="section-subtitle">Discover cutting-edge capabilities designed to transform your digital experience with unparalleled innovation and sophistication</p>
+      
+      <!-- Feature Filters -->
+      <div class="features-filter">
+        <button class="filter-btn active" data-filter="all">All Features</button>
+        <button class="filter-btn" data-filter="design">Design</button>
+        <button class="filter-btn" data-filter="performance">Performance</button>
+        <button class="filter-btn" data-filter="interaction">Interaction</button>
+      </div>
     </div>
+
     <div class="cards">
-      <div class="card">
-        <div class="card-icon">🎨</div>
-        <h3>Advanced Animations</h3>
-        <p>Micro-interactions and fluid animations that create delightful user experiences and boost engagement.</p>
+      <div class="card featured" data-category="design">
+        <div class="card-header">
+          <div class="card-icon">🎨</div>
+          <div class="card-badge">POPULAR</div>
+        </div>
+        <h3>AI-Powered Design</h3>
+        <p class="card-description">Revolutionary design system that adapts to user behavior and preferences in real-time using machine learning algorithms.</p>
+        <ul class="card-features">
+          <li>Adaptive color schemes based on time and mood</li>
+          <li>Dynamic layout optimization</li>
+          <li>Personalized user interface elements</li>
+        </ul>
+        <div class="card-action">
+          <button class="card-btn">Explore AI Design</button>
+        </div>
       </div>
-      <div class="card">
-        <div class="card-icon">⚡</div>
-        <h3>Lightning Fast</h3>
-        <p>Optimized performance with lazy loading, efficient rendering, and minimal resource usage.</p>
+
+      <div class="card premium" data-category="performance">
+        <div class="card-header">
+          <div class="card-icon">⚡</div>
+          <div class="card-badge">PREMIUM</div>
+        </div>
+        <h3>Quantum Performance</h3>
+        <p class="card-description">Ultra-optimized rendering engine delivering sub-millisecond response times with advanced caching and predictive loading.</p>
+        <ul class="card-features">
+          <li>0.1ms average response time</li>
+          <li>Predictive content preloading</li>
+          <li>Advanced memory optimization</li>
+        </ul>
+        <div class="card-action">
+          <button class="card-btn">Test Performance</button>
+        </div>
       </div>
-      <div class="card">
-        <div class="card-icon">🔥</div>
-        <h3>Modern Design</h3>
-        <p>Glassmorphism, neumorphism, and contemporary design trends that captivate your audience.</p>
+
+      <div class="card" data-category="interaction">
+        <div class="card-header">
+          <div class="card-icon">🧠</div>
+          <div class="card-badge">NEW</div>
+        </div>
+        <h3>Neural Interactions</h3>
+        <p class="card-description">Advanced gesture recognition and eye-tracking technology for intuitive, hands-free navigation and control.</p>
+        <ul class="card-features">
+          <li>Eye-tracking cursor control</li>
+          <li>Voice command integration</li>
+          <li>Gesture-based navigation</li>
+        </ul>
+        <div class="card-action">
+          <button class="card-btn">Try Neural Control</button>
+        </div>
       </div>
-      <div class="card">
-        <div class="card-icon">📱</div>
-        <h3>Fully Responsive</h3>
-        <p>Pixel-perfect design across all devices, from mobile phones to ultra-wide displays.</p>
+
+      <div class="card" data-category="design">
+        <div class="card-header">
+          <div class="card-icon">🌈</div>
+        </div>
+        <h3>Immersive Experiences</h3>
+        <p class="card-description">Create breathtaking 3D environments with WebGL acceleration and advanced particle systems for unmatched visual fidelity.</p>
+        <ul class="card-features">
+          <li>Real-time 3D rendering</li>
+          <li>Physics-based animations</li>
+          <li>Interactive particle effects</li>
+        </ul>
+        <div class="card-action">
+          <button class="card-btn">View Demo</button>
+        </div>
       </div>
-      <div class="card">
-        <div class="card-icon">🛡️</div>
-        <h3>Secure & Reliable</h3>
-        <p>Enterprise-grade security with modern best practices and reliable performance monitoring.</p>
+
+      <div class="card featured" data-category="performance">
+        <div class="card-header">
+          <div class="card-icon">🔐</div>
+          <div class="card-badge">SECURE</div>
+        </div>
+        <h3>Blockchain Security</h3>
+        <p class="card-description">Military-grade encryption with blockchain verification ensures your data remains secure and tamper-proof.</p>
+        <ul class="card-features">
+          <li>256-bit AES encryption</li>
+          <li>Blockchain data integrity</li>
+          <li>Zero-knowledge authentication</li>
+        </ul>
+        <div class="card-action">
+          <button class="card-btn">Learn Security</button>
+        </div>
       </div>
-      <div class="card">
-        <div class="card-icon">🚀</div>
-        <h3>Easy Integration</h3>
-        <p>Simple setup and seamless integration with your existing workflow and development tools.</p>
+
+      <div class="card" data-category="interaction">
+        <div class="card-header">
+          <div class="card-icon">🌐</div>
+        </div>
+        <h3>Global Synchronization</h3>
+        <p class="card-description">Real-time collaboration across continents with edge computing and advanced synchronization protocols.</p>
+        <ul class="card-features">
+          <li>Multi-user real-time editing</li>
+          <li>Global CDN optimization</li>
+          <li>Conflict-free data merging</li>
+        </ul>
+        <div class="card-action">
+          <button class="card-btn">Connect Globally</button>
+        </div>
+      </div>
+
+      <div class="card premium" data-category="design">
+        <div class="card-header">
+          <div class="card-icon">🎭</div>
+          <div class="card-badge">EXCLUSIVE</div>
+        </div>
+        <h3>Emotion Recognition</h3>
+        <p class="card-description">Cutting-edge facial analysis and biometric feedback to create emotionally responsive interfaces that adapt to user sentiment.</p>
+        <ul class="card-features">
+          <li>Real-time emotion detection</li>
+          <li>Mood-based content adaptation</li>
+          <li>Biometric user profiling</li>
+        </ul>
+        <div class="card-action">
+          <button class="card-btn">Experience Emotions</button>
+        </div>
+      </div>
+
+      <div class="card" data-category="performance">
+        <div class="card-header">
+          <div class="card-icon">🚀</div>
+        </div>
+        <h3>Edge Computing</h3>
+        <p class="card-description">Distributed computing network processing data at the edge for ultra-low latency and enhanced user experiences.</p>
+        <ul class="card-features">
+          <li>Edge node optimization</li>
+          <li>Distributed processing</li>
+          <li>Intelligent load balancing</li>
+        </ul>
+        <div class="card-action">
+          <button class="card-btn">Discover Edge</button>
+        </div>
       </div>
     </div>
   </section>
@@ -738,6 +1109,9 @@
       setupThemeSwitcher();
       setupScrollAnimations();
       setupSmoothScroll();
+      setupFeatureFiltering();
+      setupCardInteractions();
+      setupPremiumAnimations();
       
       // Animate counters when they come into view
       const statsObserver = new IntersectionObserver((entries) => {
@@ -759,3 +1133,4 @@
     window.addEventListener('scroll', handleNavbarScroll);
   </script>
 </body>
+</html>
