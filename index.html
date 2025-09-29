@@ -1,759 +1,638 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Luxe - Premium Digital Experience</title>
 <style>
-  /* Reset and base styles */
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
 
-  :root {
-    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --accent-gradient: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
-    --glass: rgba(255, 255, 255, 0.1);
-    --glass-hover: rgba(255, 255, 255, 0.2);
-    --text-primary: #ffffff;
-    --text-secondary: #e0e0e0;
-    --shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    --shadow-hover: 0 30px 60px rgba(0, 0, 0, 0.3);
-  }
-
-  body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    background: var(--primary-gradient);
-    color: var(--text-primary);
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-
-  /* Animated background particles */
-  .bg-animation {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -1;
-  }
-
-  .particle {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    animation: float 20s infinite linear;
-  }
-
-  @keyframes float {
-    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
-  }
-
-  /* Navigation */
-  nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    z-index: 1000;
-    padding: 1rem 2rem;
-    transition: all 0.3s ease;
-  }
-
-  nav.scrolled {
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  }
-
-  .nav-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
-  }
-
-  .nav-links a {
-    color: var(--text-primary);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
-    position: relative;
-  }
-
-  .nav-links a:hover {
-    color: #feb47b;
-  }
-
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -5px;
-    left: 0;
-    background: var(--accent-gradient);
-    transition: width 0.3s ease;
-  }
-
-  .nav-links a:hover::after {
-    width: 100%;
-  }
-
-  /* Hero Section */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 0 2rem;
-    position: relative;
-  }
-
-  .hero-content {
-    max-width: 800px;
-    animation: fadeInUp 1s ease;
-  }
-
-  @keyframes fadeInUp {
-    0% { opacity: 0; transform: translateY(30px); }
-    100% { opacity: 1; transform: translateY(0); }
-  }
-
-  .hero h1 {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 800;
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.02em;
-    background: linear-gradient(135deg, #fff 0%, #e0e0e0 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1.1;
-  }
-
-  .hero .subtitle {
-    font-size: clamp(1.1rem, 2vw, 1.3rem);
-    color: var(--text-secondary);
-    margin-bottom: 2.5rem;
-    font-weight: 400;
-  }
-
-  .cta-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 3rem;
-  }
-
-  .btn {
-    padding: 1rem 2rem;
-    font-size: 1rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .btn-primary {
-    background: var(--accent-gradient);
-    color: white;
-    box-shadow: var(--shadow);
-  }
-
-  .btn-secondary {
-    background: transparent;
-    color: white;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
-  }
-
-  .btn:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-hover);
-  }
-
-  .btn-primary:hover {
-    box-shadow: 0 20px 40px rgba(255, 126, 95, 0.4);
-  }
-
-  .btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.5s;
-  }
-
-  .btn:hover::before {
-    left: 100%;
-  }
-
-  /* Stats Section */
-  .stats {
-    padding: 4rem 2rem;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-  }
-
-  .stats-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-    text-align: center;
-  }
-
-  .stat-item {
-    padding: 2rem 1rem;
-  }
-
-  .stat-number {
-    font-size: 2.5rem;
-    font-weight: 800;
-    background: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-
-  .stat-label {
-    color: var(--text-secondary);
-    font-weight: 500;
-  }
-
-  /* Premium Features Section - Elevated */
-  .features {
-    padding: 8rem 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
-    position: relative;
-  }
-
-  .features::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(255, 126, 95, 0.1) 0%, transparent 70%);
-    transform: translateX(-50%);
-    border-radius: 50%;
-    animation: pulse 4s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.5; }
-    50% { transform: translateX(-50%) scale(1.2); opacity: 0.8; }
-  }
-
-  .section-header {
-    text-align: center;
-    margin-bottom: 5rem;
-    position: relative;
-    z-index: 2;
-  }
-
-  .section-title {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 800;
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.02em;
-    background: linear-gradient(135deg, #fff 0%, #ff7e5f 50%, #feb47b 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    position: relative;
-  }
-
-  .section-title::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    width: 100px;
-    height: 4px;
-    background: var(--accent-gradient);
-    transform: translateX(-50%);
-    border-radius: 2px;
-    animation: expandLine 2s ease-out;
-  }
-
-  @keyframes expandLine {
-    0% { width: 0; }
-    100% { width: 100px; }
-  }
-
-  .section-subtitle {
-    font-size: 1.3rem;
-    color: var(--text-secondary);
-    max-width: 700px;
-    margin: 0 auto 3rem;
-    line-height: 1.8;
-  }
-
-  .features-filter {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 3rem;
-    flex-wrap: wrap;
-  }
-
-  .filter-btn {
-    padding: 0.8rem 1.5rem;
-    background: transparent;
-    color: var(--text-secondary);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 500;
-    font-size: 0.9rem;
-  }
-
-  .filter-btn.active,
-  .filter-btn:hover {
-    background: var(--accent-gradient);
-    color: white;
-    border-color: transparent;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(255, 126, 95, 0.3);
-  }
-
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2.5rem;
-    perspective: 1000px;
-  }
-
-  .card {
-    background: var(--glass);
-    backdrop-filter: blur(30px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 28px;
-    padding: 3rem 2.5rem;
-    text-align: center;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transform-style: preserve-3d;
-  }
-
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-    transition: left 0.6s;
-  }
-
-  .card:hover::before {
-    left: 100%;
-  }
-
-  .card::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--accent-gradient);
-    transform: scaleX(0);
-    transition: transform 0.4s ease;
-    border-radius: 2px;
-  }
-
-  .card:hover::after {
-    transform: scaleX(1);
-  }
-
-  .card:hover {
-    transform: translateY(-15px) rotateX(5deg);
-    background: var(--glass-hover);
-    box-shadow: 
-      0 25px 50px rgba(0,0,0,0.3),
-      0 0 50px rgba(255, 126, 95, 0.2);
-    border-color: rgba(255, 255, 255, 0.3);
-  }
-
-  .card-header {
-    position: relative;
-    margin-bottom: 2rem;
-  }
-
-  .card-icon {
-    width: 80px;
-    height: 80px;
-    background: var(--accent-gradient);
-    border-radius: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1rem;
-    font-size: 2rem;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    box-shadow: 0 10px 30px rgba(255, 126, 95, 0.3);
-  }
-
-  .card:hover .card-icon {
-    transform: scale(1.15) rotate(10deg);
-    box-shadow: 0 20px 40px rgba(255, 126, 95, 0.5);
-  }
-
-  .card-icon::before {
-    content: '';
-    position: absolute;
-    inset: -5px;
-    background: var(--accent-gradient);
-    border-radius: 28px;
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .card:hover .card-icon::before {
-    opacity: 0.3;
-    animation: iconGlow 2s ease-in-out infinite alternate;
-  }
-
-  @keyframes iconGlow {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.1); }
-  }
-
-  .card-badge {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background: linear-gradient(135deg, #ff4757, #ff3838);
-    color: white;
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding: 0.3rem 0.6rem;
-    border-radius: 20px;
-    opacity: 0;
-    transform: scale(0);
-    transition: all 0.3s ease;
-  }
-
-  .card:hover .card-badge {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  .card h3 {
-    font-size: 1.6rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: var(--text-primary);
-    letter-spacing: -0.01em;
-    transition: color 0.3s ease;
-  }
-
-  .card:hover h3 {
-    background: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .card-description {
-    color: var(--text-secondary);
-    line-height: 1.7;
-    margin-bottom: 2rem;
-    font-size: 1.05rem;
-  }
-
-  .card-features {
-    list-style: none;
-    margin-bottom: 2rem;
-  }
-
-  .card-features li {
-    padding: 0.5rem 0;
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    opacity: 0;
-    transform: translateX(-20px);
-    transition: all 0.3s ease;
-    position: relative;
-    padding-left: 1.5rem;
-  }
-
-  .card-features li::before {
-    content: '✦';
-    position: absolute;
-    left: 0;
-    color: #feb47b;
-    font-weight: bold;
-  }
-
-  .card:hover .card-features li {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  .card:hover .card-features li:nth-child(1) { transition-delay: 0.1s; }
-  .card:hover .card-features li:nth-child(2) { transition-delay: 0.2s; }
-  .card:hover .card-features li:nth-child(3) { transition-delay: 0.3s; }
-
-  .card-action {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.4s ease;
-  }
-
-  .card:hover .card-action {
-    opacity: 1;
-    transform: translateY(0);
-    transition-delay: 0.2s;
-  }
-
-  .card-btn {
-    background: transparent;
-    color: var(--text-primary);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    padding: 0.8rem 1.5rem;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    font-size: 0.9rem;
-  }
-
-  .card-btn:hover {
-    background: var(--accent-gradient);
-    border-color: transparent;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(255, 126, 95, 0.4);
-  }
-
-  /* Special Premium Cards */
-  .card.featured {
-    background: linear-gradient(135deg, rgba(255, 126, 95, 0.1) 0%, rgba(254, 180, 123, 0.05) 100%);
-    border: 2px solid rgba(255, 126, 95, 0.3);
-    transform: scale(1.02);
-  }
-
-  .card.featured::before {
-    background: linear-gradient(90deg, transparent, rgba(255, 126, 95, 0.2), transparent);
-  }
-
-  .card.premium {
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.05) 100%);
-    border: 2px solid rgba(102, 126, 234, 0.3);
-  }
-
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .features {
-      padding: 4rem 1rem;
-    }
-    
-    .cards {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-    
-    .features-filter {
-      gap: 0.5rem;
-    }
-    
-    .filter-btn {
-      padding: 0.6rem 1rem;
-      font-size: 0.8rem;
-    }
-    
-    .card {
-      padding: 2rem 1.5rem;
-    }
-  }
-
-  /* Interactive Demo Section */
-  .demo-section {
-    padding: 6rem 2rem;
-    background: rgba(0, 0, 0, 0.1);
-  }
-
-  .demo-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .interactive-demo {
-    background: var(--glass);
-    backdrop-filter: blur(20px);
-    border-radius: 24px;
-    padding: 3rem;
-    margin-top: 3rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .color-palette {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-  }
-
-  .color-dot {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    border: 3px solid transparent;
-  }
-
-  .color-dot:hover,
-  .color-dot.active {
-    transform: scale(1.2);
-    border-color: white;
-  }
-
-  .color-dot.purple { background: linear-gradient(135deg, #667eea, #764ba2); }
-  .color-dot.orange { background: linear-gradient(135deg, #ff7e5f, #feb47b); }
-  .color-dot.blue { background: linear-gradient(135deg, #4facfe, #00f2fe); }
-  .color-dot.pink { background: linear-gradient(135deg, #f093fb, #f5576c); }
-  .color-dot.green { background: linear-gradient(135deg, #43e97b, #38f9d7); }
-
-  /* Footer */
-  footer {
-    text-align: center;
-    padding: 3rem 2rem;
-    background: rgba(0, 0, 0, 0.2);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .social-links {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .social-link {
-    width: 50px;
-    height: 50px;
-    background: var(--glass);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-  }
-
-  .social-link:hover {
-    background: var(--accent-gradient);
-    transform: translateY(-3px);
-  }
-
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .nav-links {
-      display: none;
-    }
-    
-    .cta-buttons {
-      flex-direction: column;
-      align-items: center;
-    }
-    
-    .cards {
-      grid-template-columns: 1fr;
-    }
-    
-    .stats-container {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .color-palette {
-      gap: 0.5rem;
-    }
-    
-    .color-dot {
-      width: 30px;
-      height: 30px;
-    }
-  }
-
-  /* Smooth scrolling */
-  html {
-    scroll-behavior: smooth;
-  }
-
-  /* Intersection observer animations */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.6s ease;
-  }
-
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+:root {
+–primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+–accent-gradient: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+–glass: rgba(255, 255, 255, 0.1);
+–glass-hover: rgba(255, 255, 255, 0.2);
+–text-primary: #ffffff;
+–text-secondary: #e0e0e0;
+–shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+–shadow-hover: 0 30px 60px rgba(0, 0, 0, 0.3);
+}
+
+body {
+font-family: ‘Inter’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, system-ui, sans-serif;
+background: var(–primary-gradient);
+color: var(–text-primary);
+line-height: 1.6;
+overflow-x: hidden;
+}
+
+.bg-animation {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+pointer-events: none;
+z-index: -1;
+}
+
+.particle {
+position: absolute;
+background: rgba(255, 255, 255, 0.1);
+border-radius: 50%;
+animation: float 20s infinite linear;
+}
+
+@keyframes float {
+0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+10% { opacity: 1; }
+90% { opacity: 1; }
+100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+}
+
+nav {
+position: fixed;
+top: 0;
+width: 100%;
+background: rgba(255, 255, 255, 0.05);
+backdrop-filter: blur(20px);
+z-index: 1000;
+padding: 1rem 2rem;
+transition: all 0.3s ease;
+}
+
+nav.scrolled {
+background: rgba(255, 255, 255, 0.1);
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.nav-content {
+display: flex;
+justify-content: space-between;
+align-items: center;
+max-width: 1200px;
+margin: 0 auto;
+}
+
+.logo {
+font-size: 1.5rem;
+font-weight: 700;
+letter-spacing: -0.02em;
+}
+
+.nav-links {
+display: flex;
+gap: 2rem;
+list-style: none;
+}
+
+.nav-links a {
+color: var(–text-primary);
+text-decoration: none;
+font-weight: 500;
+transition: color 0.3s ease;
+position: relative;
+}
+
+.nav-links a:hover {
+color: #feb47b;
+}
+
+.nav-links a::after {
+content: ‘’;
+position: absolute;
+width: 0;
+height: 2px;
+bottom: -5px;
+left: 0;
+background: var(–accent-gradient);
+transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+width: 100%;
+}
+
+.hero {
+min-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+text-align: center;
+padding: 0 2rem;
+}
+
+.hero-content {
+max-width: 800px;
+animation: fadeInUp 1s ease;
+}
+
+@keyframes fadeInUp {
+0% { opacity: 0; transform: translateY(30px); }
+100% { opacity: 1; transform: translateY(0); }
+}
+
+.hero h1 {
+font-size: clamp(2.5rem, 5vw, 4rem);
+font-weight: 800;
+margin-bottom: 1.5rem;
+letter-spacing: -0.02em;
+background: linear-gradient(135deg, #fff 0%, #e0e0e0 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+line-height: 1.1;
+}
+
+.hero .subtitle {
+font-size: clamp(1.1rem, 2vw, 1.3rem);
+color: var(–text-secondary);
+margin-bottom: 2.5rem;
+}
+
+.cta-buttons {
+display: flex;
+gap: 1rem;
+justify-content: center;
+flex-wrap: wrap;
+}
+
+.btn {
+padding: 1rem 2rem;
+font-size: 1rem;
+font-weight: 600;
+border: none;
+border-radius: 50px;
+cursor: pointer;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+text-decoration: none;
+display: inline-flex;
+align-items: center;
+gap: 0.5rem;
+position: relative;
+overflow: hidden;
+}
+
+.btn-primary {
+background: var(–accent-gradient);
+color: white;
+box-shadow: var(–shadow);
+}
+
+.btn-secondary {
+background: transparent;
+color: white;
+border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn:hover {
+transform: translateY(-3px);
+box-shadow: var(–shadow-hover);
+}
+
+.btn::before {
+content: ‘’;
+position: absolute;
+top: 0;
+left: -100%;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+transition: left 0.5s;
+}
+
+.btn:hover::before {
+left: 100%;
+}
+
+.stats {
+padding: 4rem 2rem;
+background: rgba(255, 255, 255, 0.05);
+backdrop-filter: blur(20px);
+}
+
+.stats-container {
+max-width: 1200px;
+margin: 0 auto;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 2rem;
+text-align: center;
+}
+
+.stat-number {
+font-size: 2.5rem;
+font-weight: 800;
+background: var(–accent-gradient);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+display: block;
+margin-bottom: 0.5rem;
+}
+
+.stat-label {
+color: var(–text-secondary);
+font-weight: 500;
+}
+
+/* PREMIUM FEATURES - EACH CARD WITH UNIQUE CSS EFFECT */
+.features {
+padding: 8rem 2rem;
+max-width: 1400px;
+margin: 0 auto;
+}
+
+.section-header {
+text-align: center;
+margin-bottom: 5rem;
+}
+
+.section-title {
+font-size: clamp(2.5rem, 5vw, 4rem);
+font-weight: 800;
+margin-bottom: 1.5rem;
+background: linear-gradient(135deg, #fff 0%, #ff7e5f 50%, #feb47b 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+}
+
+.section-subtitle {
+font-size: 1.3rem;
+color: var(–text-secondary);
+max-width: 700px;
+margin: 0 auto 3rem;
+line-height: 1.8;
+}
+
+.features-filter {
+display: flex;
+justify-content: center;
+gap: 1rem;
+margin-bottom: 3rem;
+flex-wrap: wrap;
+}
+
+.filter-btn {
+padding: 0.8rem 1.5rem;
+background: transparent;
+color: var(–text-secondary);
+border: 2px solid rgba(255, 255, 255, 0.2);
+border-radius: 50px;
+cursor: pointer;
+transition: all 0.3s ease;
+font-weight: 500;
+font-size: 0.9rem;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+background: var(–accent-gradient);
+color: white;
+border-color: transparent;
+transform: translateY(-2px);
+box-shadow: 0 10px 20px rgba(255, 126, 95, 0.3);
+}
+
+.cards {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+gap: 2.5rem;
+}
+
+.card {
+background: var(–glass);
+backdrop-filter: blur(30px);
+border: 1px solid rgba(255, 255, 255, 0.15);
+border-radius: 28px;
+padding: 2.5rem;
+text-align: center;
+transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+cursor: pointer;
+position: relative;
+overflow: hidden;
+}
+
+.card.hidden {
+display: none;
+}
+
+/* Card 1: 3D Flip Effect */
+.card[data-effect=“flip”] {
+transform-style: preserve-3d;
+perspective: 1000px;
+}
+
+.card[data-effect=“flip”]:hover {
+transform: rotateY(10deg) rotateX(5deg);
+box-shadow: -20px 20px 60px rgba(0,0,0,0.4);
+}
+
+/* Card 2: Neon Glow Border */
+.card[data-effect=“glow”]::before {
+content: ‘’;
+position: absolute;
+inset: -2px;
+background: linear-gradient(45deg, #ff7e5f, #feb47b, #667eea, #764ba2);
+border-radius: 28px;
+z-index: -1;
+opacity: 0;
+transition: opacity 0.5s;
+animation: rotate 3s linear infinite;
+}
+
+.card[data-effect=“glow”]:hover::before {
+opacity: 1;
+}
+
+@keyframes rotate {
+100% { transform: rotate(360deg); }
+}
+
+/* Card 3: Morphing Shape */
+.card[data-effect=“morph”]:hover {
+border-radius: 50px 28px 50px 28px;
+transform: scale(1.05);
+}
+
+/* Card 4: Liquid Effect */
+.card[data-effect=“liquid”]::after {
+content: ‘’;
+position: absolute;
+top: -50%;
+left: -50%;
+width: 200%;
+height: 200%;
+background: radial-gradient(circle, rgba(255,126,95,0.3) 0%, transparent 70%);
+opacity: 0;
+transition: all 0.6s ease;
+}
+
+.card[data-effect=“liquid”]:hover::after {
+opacity: 1;
+top: -20%;
+left: -20%;
+}
+
+/* Card 5: Skew Transform */
+.card[data-effect=“skew”]:hover {
+transform: skewY(-2deg) translateY(-10px);
+box-shadow: 10px 30px 60px rgba(0,0,0,0.3);
+}
+
+/* Card 6: Scale Pulse */
+.card[data-effect=“pulse”]:hover {
+animation: cardPulse 1s ease-in-out infinite;
+}
+
+@keyframes cardPulse {
+0%, 100% { transform: scale(1); }
+50% { transform: scale(1.05); }
+}
+
+/* Card 7: Parallax Layers */
+.card[data-effect=“parallax”]:hover .card-icon {
+transform: translateZ(50px) scale(1.2);
+}
+
+.card[data-effect=“parallax”]:hover h3 {
+transform: translateZ(30px);
+}
+
+.card[data-effect=“parallax”]:hover .card-description {
+transform: translateZ(20px);
+}
+
+/* Card 8: Gradient Shift */
+.card[data-effect=“gradient”] {
+background: linear-gradient(135deg, rgba(255,126,95,0.1), rgba(102,126,234,0.1));
+background-size: 200% 200%;
+animation: gradientShift 3s ease infinite;
+}
+
+.card[data-effect=“gradient”]:hover {
+animation-play-state: paused;
+}
+
+@keyframes gradientShift {
+0%, 100% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+}
+
+/* Common Card Elements */
+.card-icon {
+width: 80px;
+height: 80px;
+background: var(–accent-gradient);
+border-radius: 24px;
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 0 auto 1.5rem;
+font-size: 2rem;
+transition: all 0.5s ease;
+box-shadow: 0 10px 30px rgba(255, 126, 95, 0.3);
+}
+
+.card:hover .card-icon {
+transform: scale(1.15) rotate(10deg);
+box-shadow: 0 20px 40px rgba(255, 126, 95, 0.5);
+}
+
+.card-badge {
+position: absolute;
+top: 20px;
+right: 20px;
+background: linear-gradient(135deg, #ff4757, #ff3838);
+color: white;
+font-size: 0.7rem;
+font-weight: 700;
+padding: 0.4rem 0.8rem;
+border-radius: 20px;
+opacity: 0;
+transform: translateY(-10px);
+transition: all 0.3s ease;
+}
+
+.card:hover .card-badge {
+opacity: 1;
+transform: translateY(0);
+}
+
+.card h3 {
+font-size: 1.5rem;
+font-weight: 700;
+margin-bottom: 1rem;
+color: var(–text-primary);
+transition: all 0.3s ease;
+}
+
+.card:hover h3 {
+background: var(–accent-gradient);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+}
+
+.card-description {
+color: var(–text-secondary);
+line-height: 1.7;
+margin-bottom: 1.5rem;
+font-size: 0.95rem;
+}
+
+.card-features {
+list-style: none;
+margin-bottom: 1.5rem;
+text-align: left;
+}
+
+.card-features li {
+padding: 0.5rem 0;
+color: var(–text-secondary);
+font-size: 0.85rem;
+position: relative;
+padding-left: 1.5rem;
+}
+
+.card-features li::before {
+content: ‘✦’;
+position: absolute;
+left: 0;
+color: #feb47b;
+}
+
+.card-btn {
+background: transparent;
+color: var(–text-primary);
+border: 2px solid rgba(255, 255, 255, 0.3);
+padding: 0.7rem 1.3rem;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+font-weight: 600;
+font-size: 0.85rem;
+}
+
+.card-btn:hover {
+background: var(–accent-gradient);
+border-color: transparent;
+transform: translateY(-2px);
+box-shadow: 0 10px 20px rgba(255, 126, 95, 0.4);
+}
+
+.demo-section {
+padding: 6rem 2rem;
+background: rgba(0, 0, 0, 0.1);
+}
+
+.demo-container {
+max-width: 1000px;
+margin: 0 auto;
+text-align: center;
+}
+
+.interactive-demo {
+background: var(–glass);
+backdrop-filter: blur(20px);
+border-radius: 24px;
+padding: 3rem;
+margin-top: 3rem;
+border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.color-palette {
+display: flex;
+justify-content: center;
+gap: 1rem;
+margin: 2rem 0;
+flex-wrap: wrap;
+}
+
+.color-dot {
+width: 50px;
+height: 50px;
+border-radius: 50%;
+cursor: pointer;
+transition: transform 0.3s ease;
+border: 3px solid transparent;
+}
+
+.color-dot:hover,
+.color-dot.active {
+transform: scale(1.3);
+border-color: white;
+}
+
+.color-dot.purple { background: linear-gradient(135deg, #667eea, #764ba2); }
+.color-dot.orange { background: linear-gradient(135deg, #ff7e5f, #feb47b); }
+.color-dot.blue { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+.color-dot.pink { background: linear-gradient(135deg, #f093fb, #f5576c); }
+.color-dot.green { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+
+footer {
+text-align: center;
+padding: 3rem 2rem;
+background: rgba(0, 0, 0, 0.2);
+border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.social-links {
+display: flex;
+justify-content: center;
+gap: 1rem;
+margin-bottom: 2rem;
+}
+
+.social-link {
+width: 50px;
+height: 50px;
+background: var(–glass);
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+color: white;
+text-decoration: none;
+transition: all 0.3s ease;
+}
+
+.social-link:hover {
+background: var(–accent-gradient);
+transform: translateY(-3px);
+}
+
+@media (max-width: 768px) {
+.nav-links { display: none; }
+.cards { grid-template-columns: 1fr; }
+.features { padding: 4rem 1rem; }
+.stats-container { grid-template-columns: repeat(2, 1fr); }
+}
+
+html { scroll-behavior: smooth; }
+
+.fade-in {
+opacity: 0;
+transform: translateY(20px);
+transition: all 0.6s ease;
+}
+
+.fade-in.visible {
+opacity: 1;
+transform: translateY(0);
+}
 </style>
+
 </head>
 <body>
-  <!-- Animated background -->
   <div class="bg-animation" id="bgAnimation"></div>
 
-  <!-- Navigation -->
   <nav id="navbar">
     <div class="nav-content">
       <div class="logo">Luxe</div>
@@ -766,23 +645,17 @@
     </div>
   </nav>
 
-  <!-- Hero Section -->
   <section class="hero" id="home">
     <div class="hero-content">
       <h1>Luxe Digital Experience</h1>
       <p class="subtitle">Crafting premium interfaces with cutting-edge design, seamless interactions, and unparalleled attention to detail.</p>
       <div class="cta-buttons">
-        <a href="#demo" class="btn btn-primary">
-          ✨ Experience Demo
-        </a>
-        <a href="#features" class="btn btn-secondary">
-          📱 Learn More
-        </a>
+        <a href="#demo" class="btn btn-primary">✨ Experience Demo</a>
+        <a href="#features" class="btn btn-secondary">📱 Learn More</a>
       </div>
     </div>
   </section>
 
-  <!-- Stats Section -->
   <section class="stats">
     <div class="stats-container">
       <div class="stat-item">
@@ -804,164 +677,133 @@
     </div>
   </section>
 
-  <!-- Premium Features Section - ELEVATED -->
   <section class="features fade-in" id="features">
     <div class="section-header">
       <h2 class="section-title">Premium Features</h2>
-      <p class="section-subtitle">Discover cutting-edge capabilities designed to transform your digital experience with unparalleled innovation and sophistication</p>
-      
-      <!-- Feature Filters -->
-      <div class="features-filter">
-        <button class="filter-btn active" data-filter="all">All Features</button>
-        <button class="filter-btn" data-filter="design">Design</button>
-        <button class="filter-btn" data-filter="performance">Performance</button>
-        <button class="filter-btn" data-filter="interaction">Interaction</button>
-      </div>
-    </div>
+      <p class="section-subtitle">Each card demonstrates a unique CSS interaction technique - hover to see different effects!</p>
 
-    <div class="cards">
-      <div class="card featured" data-category="design">
-        <div class="card-header">
-          <div class="card-icon">🎨</div>
-          <div class="card-badge">POPULAR</div>
-        </div>
-        <h3>AI-Powered Design</h3>
-        <p class="card-description">Revolutionary design system that adapts to user behavior and preferences in real-time using machine learning algorithms.</p>
-        <ul class="card-features">
-          <li>Adaptive color schemes based on time and mood</li>
-          <li>Dynamic layout optimization</li>
-          <li>Personalized user interface elements</li>
-        </ul>
-        <div class="card-action">
-          <button class="card-btn">Explore AI Design</button>
-        </div>
-      </div>
+```
+  <div class="features-filter">
+    <button class="filter-btn active" data-filter="all">All Features</button>
+    <button class="filter-btn" data-filter="design">Design</button>
+    <button class="filter-btn" data-filter="performance">Performance</button>
+    <button class="filter-btn" data-filter="interaction">Interaction</button>
+  </div>
+</div>
 
-      <div class="card premium" data-category="performance">
-        <div class="card-header">
-          <div class="card-icon">⚡</div>
-          <div class="card-badge">PREMIUM</div>
-        </div>
-        <h3>Quantum Performance</h3>
-        <p class="card-description">Ultra-optimized rendering engine delivering sub-millisecond response times with advanced caching and predictive loading.</p>
-        <ul class="card-features">
-          <li>0.1ms average response time</li>
-          <li>Predictive content preloading</li>
-          <li>Advanced memory optimization</li>
-        </ul>
-        <div class="card-action">
-          <button class="card-btn">Test Performance</button>
-        </div>
-      </div>
+<div class="cards">
+  <div class="card" data-category="design" data-effect="flip">
+    <div class="card-badge">3D FLIP</div>
+    <div class="card-icon">🎨</div>
+    <h3>AI-Powered Design</h3>
+    <p class="card-description">Revolutionary design system that adapts to user behavior using machine learning.</p>
+    <ul class="card-features">
+      <li>Adaptive color schemes</li>
+      <li>Dynamic layout optimization</li>
+      <li>Personalized UI elements</li>
+    </ul>
+    <button class="card-btn">Explore AI Design</button>
+  </div>
 
-      <div class="card" data-category="interaction">
-        <div class="card-header">
-          <div class="card-icon">🧠</div>
-          <div class="card-badge">NEW</div>
-        </div>
-        <h3>Neural Interactions</h3>
-        <p class="card-description">Advanced gesture recognition and eye-tracking technology for intuitive, hands-free navigation and control.</p>
-        <ul class="card-features">
-          <li>Eye-tracking cursor control</li>
-          <li>Voice command integration</li>
-          <li>Gesture-based navigation</li>
-        </ul>
-        <div class="card-action">
-          <button class="card-btn">Try Neural Control</button>
-        </div>
-      </div>
+  <div class="card" data-category="performance" data-effect="glow">
+    <div class="card-badge">NEON GLOW</div>
+    <div class="card-icon">⚡</div>
+    <h3>Quantum Performance</h3>
+    <p class="card-description">Ultra-optimized rendering engine delivering sub-millisecond response times.</p>
+    <ul class="card-features">
+      <li>0.1ms response time</li>
+      <li>Predictive preloading</li>
+      <li>Memory optimization</li>
+    </ul>
+    <button class="card-btn">Test Performance</button>
+  </div>
 
-      <div class="card" data-category="design">
-        <div class="card-header">
-          <div class="card-icon">🌈</div>
-        </div>
-        <h3>Immersive Experiences</h3>
-        <p class="card-description">Create breathtaking 3D environments with WebGL acceleration and advanced particle systems for unmatched visual fidelity.</p>
-        <ul class="card-features">
-          <li>Real-time 3D rendering</li>
-          <li>Physics-based animations</li>
-          <li>Interactive particle effects</li>
-        </ul>
-        <div class="card-action">
-          <button class="card-btn">View Demo</button>
-        </div>
-      </div>
+  <div class="card" data-category="interaction" data-effect="morph">
+    <div class="card-badge">MORPH</div>
+    <div class="card-icon">🧠</div>
+    <h3>Neural Interactions</h3>
+    <p class="card-description">Advanced gesture recognition and eye-tracking technology for intuitive control.</p>
+    <ul class="card-features">
+      <li>Eye-tracking cursor</li>
+      <li>Voice commands</li>
+      <li>Gesture navigation</li>
+    </ul>
+    <button class="card-btn">Try Neural Control</button>
+  </div>
 
-      <div class="card featured" data-category="performance">
-        <div class="card-header">
-          <div class="card-icon">🔐</div>
-          <div class="card-badge">SECURE</div>
-        </div>
-        <h3>Blockchain Security</h3>
-        <p class="card-description">Military-grade encryption with blockchain verification ensures your data remains secure and tamper-proof.</p>
-        <ul class="card-features">
-          <li>256-bit AES encryption</li>
-          <li>Blockchain data integrity</li>
-          <li>Zero-knowledge authentication</li>
-        </ul>
-        <div class="card-action">
-          <button class="card-btn">Learn Security</button>
-        </div>
-      </div>
+  <div class="card" data-category="design" data-effect="liquid">
+    <div class="card-badge">LIQUID</div>
+    <div class="card-icon">🌈</div>
+    <h3>Immersive Experiences</h3>
+    <p class="card-description">Create breathtaking 3D environments with WebGL acceleration.</p>
+    <ul class="card-features">
+      <li>Real-time 3D rendering</li>
+      <li>Physics-based animations</li>
+      <li>Interactive particles</li>
+    </ul>
+    <button class="card-btn">View Demo</button>
+  </div>
 
-      <div class="card" data-category="interaction">
-        <div class="card-header">
-          <div class="card-icon">🌐</div>
-        </div>
-        <h3>Global Synchronization</h3>
-        <p class="card-description">Real-time collaboration across continents with edge computing and advanced synchronization protocols.</p>
-        <ul class="card-features">
-          <li>Multi-user real-time editing</li>
-          <li>Global CDN optimization</li>
-          <li>Conflict-free data merging</li>
-        </ul>
-        <div class="card-action">
-          <button class="card-btn">Connect Globally</button>
-        </div>
-      </div>
+  <div class="card" data-category="performance" data-effect="skew">
+    <div class="card-badge">SKEW</div>
+    <div class="card-icon">🔐</div>
+    <h3>Blockchain Security</h3>
+    <p class="card-description">Military-grade encryption with blockchain verification ensures data security.</p>
+    <ul class="card-features">
+      <li>256-bit AES encryption</li>
+      <li>Blockchain integrity</li>
+      <li>Zero-knowledge auth</li>
+    </ul>
+    <button class="card-btn">Learn Security</button>
+  </div>
 
-      <div class="card premium" data-category="design">
-        <div class="card-header">
-          <div class="card-icon">🎭</div>
-          <div class="card-badge">EXCLUSIVE</div>
-        </div>
-        <h3>Emotion Recognition</h3>
-        <p class="card-description">Cutting-edge facial analysis and biometric feedback to create emotionally responsive interfaces that adapt to user sentiment.</p>
-        <ul class="card-features">
-          <li>Real-time emotion detection</li>
-          <li>Mood-based content adaptation</li>
-          <li>Biometric user profiling</li>
-        </ul>
-        <div class="card-action">
-          <button class="card-btn">Experience Emotions</button>
-        </div>
-      </div>
+  <div class="card" data-category="interaction" data-effect="pulse">
+    <div class="card-badge">PULSE</div>
+    <div class="card-icon">🌐</div>
+    <h3>Global Synchronization</h3>
+    <p class="card-description">Real-time collaboration across continents with edge computing protocols.</p>
+    <ul class="card-features">
+      <li>Multi-user editing</li>
+      <li>Global CDN optimization</li>
+      <li>Conflict-free merging</li>
+    </ul>
+    <button class="card-btn">Connect Globally</button>
+  </div>
 
-      <div class="card" data-category="performance">
-        <div class="card-header">
-          <div class="card-icon">🚀</div>
-        </div>
-        <h3>Edge Computing</h3>
-        <p class="card-description">Distributed computing network processing data at the edge for ultra-low latency and enhanced user experiences.</p>
-        <ul class="card-features">
-          <li>Edge node optimization</li>
-          <li>Distributed processing</li>
-          <li>Intelligent load balancing</li>
-        </ul>
-        <div class="card-action">
-          <button class="card-btn">Discover Edge</button>
-        </div>
-      </div>
-    </div>
+  <div class="card" data-category="design" data-effect="parallax">
+    <div class="card-badge">PARALLAX</div>
+    <div class="card-icon">🎭</div>
+    <h3>Emotion Recognition</h3>
+    <p class="card-description">Facial analysis and biometric feedback for emotionally responsive interfaces.</p>
+    <ul class="card-features">
+      <li>Real-time emotion detection</li>
+      <li>Mood-based adaptation</li>
+      <li>Biometric profiling</li>
+    </ul>
+    <button class="card-btn">Experience Emotions</button>
+  </div>
+
+  <div class="card" data-category="performance" data-effect="gradient">
+    <div class="card-badge">GRADIENT</div>
+    <div class="card-icon">🚀</div>
+    <h3>Edge Computing</h3>
+    <p class="card-description">Distributed computing network processing data at the edge for ultra-low latency.</p>
+    <ul class="card-features">
+      <li>Edge node optimization</li>
+      <li>Distributed processing</li>
+      <li>Intelligent load balancing</li>
+    </ul>
+    <button class="card-btn">Discover Edge</button>
+  </div>
+</div>
+```
+
   </section>
 
-  <!-- Interactive Demo Section -->
   <section class="demo-section fade-in" id="demo">
     <div class="demo-container">
-      <div class="section-header">
-        <h2 class="section-title">Interactive Demo</h2>
-        <p class="section-subtitle">Try our color themes and see the magic happen in real-time</p>
-      </div>
+      <h2 class="section-title">Interactive Demo</h2>
+      <p class="section-subtitle">Try our color themes and see the magic happen in real-time</p>
       <div class="interactive-demo">
         <h3>Choose Your Theme</h3>
         <div class="color-palette">
@@ -976,7 +818,6 @@
     </div>
   </section>
 
-  <!-- Footer -->
   <footer id="contact">
     <div class="footer-content">
       <div class="social-links">
@@ -990,37 +831,26 @@
   </footer>
 
   <script>
-    // Animated background particles
     function createParticles() {
       const container = document.getElementById('bgAnimation');
-      const particleCount = 20;
-      
-      for (let i = 0; i < particleCount; i++) {
+      for (let i = 0; i < 20; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
         particle.style.left = Math.random() * 100 + '%';
-        particle.style.width = (Math.random() * 10 + 5) + 'px';
-        particle.style.height = particle.style.width;
+        particle.style.width = particle.style.height = (Math.random() * 10 + 5) + 'px';
         particle.style.animationDelay = Math.random() * 20 + 's';
         particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
         container.appendChild(particle);
       }
     }
 
-    // Navbar scroll effect
     function handleNavbarScroll() {
       const navbar = document.getElementById('navbar');
-      if (window.scrollY > 100) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
+      navbar.classList.toggle('scrolled', window.scrollY > 100);
     }
 
-    // Animated counter
     function animateCounters() {
-      const counters = document.querySelectorAll('.stat-number');
-      counters.forEach(counter => {
+      document.querySelectorAll('.stat-number').forEach(counter => {
         const target = parseInt(counter.getAttribute('data-target'));
         const increment = target / 100;
         let current = 0;
@@ -1031,17 +861,14 @@
             counter.textContent = Math.ceil(current);
             requestAnimationFrame(updateCounter);
           } else {
-            counter.textContent = target + (counter.getAttribute('data-target') === '99' ? '%' : '+');
+            counter.textContent = target + (target === 99 ? '%' : '+');
           }
         };
-        
         updateCounter();
       });
     }
 
-    // Theme switcher
     function setupThemeSwitcher() {
-      const colorDots = document.querySelectorAll('.color-dot');
       const themes = {
         purple: { primary: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', accent: 'linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%)' },
         orange: { primary: 'linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%)', accent: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
@@ -1050,31 +877,44 @@
         green: { primary: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', accent: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' }
       };
 
-      colorDots.forEach(dot => {
+      document.querySelectorAll('.color-dot').forEach(dot => {
         dot.addEventListener('click', () => {
           const theme = dot.getAttribute('data-theme');
-          
-          // Remove active class from all dots
-          colorDots.forEach(d => d.classList.remove('active'));
-          // Add active class to clicked dot
+          document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
           dot.classList.add('active');
           
-          // Apply theme
           document.documentElement.style.setProperty('--primary-gradient', themes[theme].primary);
           document.documentElement.style.setProperty('--accent-gradient', themes[theme].accent);
-          
-          // Add animation class to body
-          document.body.style.transition = 'all 0.5s ease';
-          setTimeout(() => {
-            document.body.style.transition = '';
-          }, 500);
         });
       });
     }
 
-    // Intersection Observer for fade-in animations
+    function setupFeatureFiltering() {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const cards = document.querySelectorAll('.card');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const filter = btn.getAttribute('data-filter');
+          
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          
+          cards.forEach(card => {
+            const category = card.getAttribute('data-category');
+            if (filter === 'all' || category === filter) {
+              card.classList.remove('hidden');
+              card.style.animation = 'fadeInUp 0.6s ease';
+            } else {
+              card.classList.add('hidden');
+            }
+          });
+        });
+      });
+    }
+
     function setupScrollAnimations() {
-      const observer = new IntersectionObserver((entries) => {
+      const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('visible');
@@ -1082,39 +922,27 @@
         });
       }, { threshold: 0.1 });
 
-      document.querySelectorAll('.fade-in').forEach(el => {
-        observer.observe(el);
-      });
+      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
     }
 
-    // Smooth scroll for navigation links
     function setupSmoothScroll() {
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
           e.preventDefault();
           const target = document.querySelector(this.getAttribute('href'));
-          if (target) {
-            target.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
-          }
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
       });
     }
 
-    // Initialize everything
     document.addEventListener('DOMContentLoaded', () => {
       createParticles();
       setupThemeSwitcher();
       setupScrollAnimations();
       setupSmoothScroll();
       setupFeatureFiltering();
-      setupCardInteractions();
-      setupPremiumAnimations();
       
-      // Animate counters when they come into view
-      const statsObserver = new IntersectionObserver((entries) => {
+      const statsObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             animateCounters();
@@ -1124,12 +952,9 @@
       }, { threshold: 0.5 });
       
       const statsSection = document.querySelector('.stats');
-      if (statsSection) {
-        statsObserver.observe(statsSection);
-      }
+      if (statsSection) statsObserver.observe(statsSection);
     });
 
-    // Add scroll event listener
     window.addEventListener('scroll', handleNavbarScroll);
   </script>
 </body>
